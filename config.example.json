@@ -1,3 +1,6 @@
 {
-    "guild_id": 123456789
+    "guild_id": 123456789,
+    "ffxiv": {
+        "characters_ids": []
+    }
 }
