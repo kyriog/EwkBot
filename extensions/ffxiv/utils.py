@@ -25,6 +25,8 @@ def generate_kweh():
         require_cap = next_cap
         base_bonus += 0.1
     joined = " ".join(text)
-    if not joined.endswith((',', '.', '?', '!')):
+    if joined.endswith(','):
+        joined = joined[:-1] + "."
+    elif not joined.endswith(('.', '?', '!')):
         joined += "."
     return joined
