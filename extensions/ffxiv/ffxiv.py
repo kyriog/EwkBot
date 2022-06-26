@@ -5,6 +5,7 @@ from discord import app_commands
 from discord.ext.commands import Cog
 
 from botewk import EwkBot
+from .utils import generate_kweh
 
 class FFXIVCog(Cog):
     group = app_commands.Group(name="ffxiv", description="FFXIV Commands")
@@ -47,7 +48,13 @@ class FFXIVCog(Cog):
             async with session.get(url) as response:
                 json = await response.json()
                 return [app_commands.Choice(name=result["name"], value=result["id"]) for result in json["results"][0:25]]
-
+    
+    @group.command(description="Appelez Alpha à l’aide !")
+    async def kweh(self, interaction: discord.Interaction):
+        embed = discord.Embed()
+        embed.set_author(name="Alpha", icon_url="https://i.imgur.com/9iCJwkN.jpeg")
+        embed.description = generate_kweh()
+        await interaction.response.send_message(embed=embed)
 
 async def setup(bot: EwkBot):
     await bot.add_cog(FFXIVCog(bot, bot.config['ffxiv']))
