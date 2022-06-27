@@ -13,13 +13,6 @@ class FFXIVCog(Cog):
     def __init__(self, bot: EwkBot, config: dict) -> None:
         self.bot = bot
         self.config = config
-        self.ctx_menu = [
-            app_commands.ContextMenu(name="Appeler Alpha", callback=self.context_kweh)
-        ]
-        [self.bot.tree.add_command(ctx) for ctx in self.ctx_menu]
-    
-    async def cog_unload(self) -> None:
-        [self.bot.tree.remove_command(ctx) for ctx in self.ctx_menu]
 
     @group.command(name="mascotte", description="Compare les possessions de mascottes")
     @app_commands.rename(item="nom_de_mascotte", hidden="masqué")
@@ -58,16 +51,10 @@ class FFXIVCog(Cog):
     
     @group.command(description="Appelez Alpha à l’aide !")
     async def kweh(self, interaction: discord.Interaction):
-        await interaction.response.send_message(embed=self.kweh_embed())
-    
-    async def context_kweh(self, interaction: discord.Interaction, message: discord.Message):
-        await message.reply(embed=self.kweh_embed())
-
-    def kweh_embed(self):
         embed = discord.Embed()
         embed.set_author(name="Alpha", icon_url="https://i.imgur.com/9iCJwkN.jpeg")
         embed.description = generate_kweh()
-        return embed
+        await interaction.response.send_message(embed=embed)
 
 async def setup(bot: EwkBot):
     await bot.add_cog(FFXIVCog(bot, bot.config['ffxiv']))
