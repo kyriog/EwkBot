@@ -1,3 +1,4 @@
+from math import ceil
 from typing import List, Optional
 
 import aiohttp
@@ -41,7 +42,8 @@ class FFXIVCog(Cog):
                 url = f"https://universalis.app/api/v2/{self.config['world']}/{item_id}"
                 async with session.get(url) as response:
                     json = await response.json()
-                    lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : {json['averagePrice']:n} gils")
+                    average_price = ceil(json['averagePrice'])
+                    lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : {average_price:n} gils")
             embed.description = "\n".join(lines)
         await interaction.followup.send(embed=embed)
 
