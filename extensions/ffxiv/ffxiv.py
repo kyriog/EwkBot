@@ -1,4 +1,5 @@
 from typing import List, Optional
+
 import aiohttp
 import discord
 from discord import app_commands
@@ -25,6 +26,7 @@ class FFXIVCog(Cog):
             url = f"https://ffxivcollect.com/api/minions/{item}?language={lang}"
             async with session.get(url) as response:
                 json = await response.json()
+                item_id = json["item_id"]
                 embed.title = json["name"]
                 embed.set_thumbnail(url=json["image"])
             lines = []
@@ -34,6 +36,11 @@ class FFXIVCog(Cog):
                     json = await response.json()
                     has_minion = item in json["minions"]["ids"]
                     lines.append(f"{'✓' if has_minion else '✗'} {json['name']}")
+            if item_id:
+                url = f"https://universalis.app/api/v2/{self.config['world']}/{item_id}"
+                async with session.get(url) as response:
+                    json = await response.json()
+                    lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : {json['averagePrice']:n} gils")
             embed.description = "\n".join(lines)
         await interaction.response.send_message(embed=embed, ephemeral=hidden)
 
