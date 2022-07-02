@@ -11,3 +11,4 @@ python_version = "3.9"
 [packages]
 aiohttp = "*"
 "discord.py" = {git = "https://github.com/Rapptz/discord.py.git"}
+beautifulsoup4 = "*"

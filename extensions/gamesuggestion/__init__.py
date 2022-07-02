@@ -1,0 +1,1 @@
+from .gamesuggestion import setup
