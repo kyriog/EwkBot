@@ -19,6 +19,7 @@ class FFXIVCog(Cog):
     @app_commands.rename(item="nom_de_mascotte", hidden="masqué")
     @app_commands.describe(item="Peut être précédé de la langue de recherche (ex \"fr_G'raha\")", hidden="Masque la réponse aux autres membres")
     async def minions(self, interaction: discord.Interaction, item: int, hidden: Optional[bool] = False):
+        await interaction.response.defer(ephemeral=hidden)
         lang = interaction.locale.value[0:2]
         embed = discord.Embed()
         embed.url = f"https://ffxivcollect.com/minions/{item}"
@@ -42,7 +43,7 @@ class FFXIVCog(Cog):
                     json = await response.json()
                     lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : {json['averagePrice']:n} gils")
             embed.description = "\n".join(lines)
-        await interaction.response.send_message(embed=embed, ephemeral=hidden)
+        await interaction.followup.send(embed=embed)
 
     @minions.autocomplete('item')
     async def item_autocomplete(self, interaction: discord.Interaction, current: str) -> List[app_commands.Choice[str]]:
