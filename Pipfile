@@ -6,9 +6,9 @@ name = "pypi"
 [dev-packages]
 
 [requires]
-python_version = "3.9"
+python_version = "3.10"
 
 [packages]
 aiohttp = "*"
-"discord.py" = {git = "https://github.com/Rapptz/discord.py.git"}
+"discord.py" = "~=2.0"
 beautifulsoup4 = "*"
