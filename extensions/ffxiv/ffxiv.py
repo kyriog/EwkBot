@@ -39,11 +39,14 @@ class FFXIVCog(Cog):
                     has_minion = item in json["minions"]["ids"]
                     lines.append(f"{'✓' if has_minion else '✗'} {json['name']}")
             if item_id:
-                url = f"https://universalis.app/api/v2/{self.config['world']}/{item_id}"
-                async with session.get(url) as response:
-                    json = await response.json()
-                    average_price = ceil(json['averagePrice'])
-                    lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : {average_price:n} gils")
+                try:
+                    url = f"https://universalis.app/api/v2/{self.config['world']}/{item_id}"
+                    async with session.get(url) as response:
+                        json = await response.json()
+                        average_price = ceil(json['averagePrice'])
+                        lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : {average_price:n} gils")
+                except aiohttp.ContentTypeError:
+                    lines.append(f"[Prix moyen](https://universalis.app/market/{item_id}) : indisponible")
             embed.description = "\n".join(lines)
         await interaction.followup.send(embed=embed)
 
