@@ -7,7 +7,7 @@ from discord import app_commands
 from discord.ext.commands import Cog
 
 from botewk import EwkBot
-from .utils import generate_kweh
+from .utils import generate_kweh, quote_emet
 
 class FFXIVCog(Cog):
     group = app_commands.Group(name="ffxiv", description="FFXIV Commands")
@@ -67,6 +67,13 @@ class FFXIVCog(Cog):
         embed = discord.Embed()
         embed.set_author(name="Alpha", icon_url="https://i.imgur.com/9iCJwkN.jpeg")
         embed.description = generate_kweh()
+        await interaction.response.send_message(embed=embed)
+
+    @group.command(description="Que peut bien en penser Emet-Selch ?")
+    async def emet(self, interaction: discord.Interaction):
+        embed = discord.Embed()
+        embed.set_author(name="Emet-Selch", icon_url="https://i.imgur.com/VoJgNx4.jpeg")
+        embed.description = quote_emet()
         await interaction.response.send_message(embed=embed)
 
 async def setup(bot: EwkBot):
