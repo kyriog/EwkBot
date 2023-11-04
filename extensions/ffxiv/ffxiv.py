@@ -33,7 +33,7 @@ class FFXIVCog(Cog):
                 embed.set_thumbnail(url=json["image"])
             lines = []
             for character_id in self.config['characters_ids']:
-                url = f"https://ffxivcollect.com/api/characters/{character_id}?ids=true"
+                url = f"https://ffxivcollect.com/api/characters/{character_id}?ids=true&latest=true"
                 async with session.get(url) as response:
                     json = await response.json()
                     has_minion = item in json["minions"]["ids"]
