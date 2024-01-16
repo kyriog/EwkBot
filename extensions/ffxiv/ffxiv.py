@@ -1,3 +1,4 @@
+from io import BytesIO
 from math import ceil
 from typing import List, Optional
 
@@ -75,6 +76,19 @@ class FFXIVCog(Cog):
         embed.set_author(name="Emet-Selch", icon_url="https://i.imgur.com/VoJgNx4.jpeg")
         embed.description = quote_emet()
         await interaction.response.send_message(embed=embed)
+
+    
+    @group.command(description="Exprimez-vous comme dans Final Fantasy XIV !")
+    @app_commands.describe(speaker="Le nom de la personne s’exprimant", text="Le texte dans la bulle de dialogue")
+    async def text(self, interaction: discord.Interaction, speaker: str, text: str):
+        async with aiohttp.ClientSession() as session:
+            data = {
+                "speaker": speaker,
+                "text": text
+            }
+            async with session.post('https://textboxiv.kyriog.fr', data=data) as resp:
+                file = discord.File(BytesIO(await resp.read()), 'text.png')
+                await interaction.response.send_message(file=file)
 
 async def setup(bot: EwkBot):
     await bot.add_cog(FFXIVCog(bot, bot.config['ffxiv']))
