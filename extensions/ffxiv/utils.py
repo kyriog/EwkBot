@@ -1,4 +1,4 @@
-from random import choice
+from random import random, choice
 
 def generate_kweh():
     text = []
